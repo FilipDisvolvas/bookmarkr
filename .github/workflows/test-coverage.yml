@@ -22,7 +22,7 @@ jobs:
           mongodb-db: reactive-bookmarks
       - uses: gradle/gradle-build-action@v2
         env:
-          SPRING_PROFILE_ACTIVE: github
+          SPRING_PROFILES_ACTIVE: github
         with:
           arguments: clean build test jacocoTestReport
       - name: Generate JaCoCo Badge
