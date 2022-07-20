@@ -11,9 +11,9 @@ jobs:
     docker:
       # specify the version you desire here
       - image: cimg/openjdk:17.0.3
-      - image: circleci/mongo:3.6
+      - image: circleci/mongo:5.0
         environment:
-          - MONGODB_USERNAME: mongoadmin
+          - MONGODB_USERNAME: mongouser
           - MONGODB_PASSWORD: secret
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -46,4 +46,4 @@ jobs:
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
       # run tests!
-      - run: SPRING_PROFILES_ACTIVE=test gradle test
+      - run: gradle test
