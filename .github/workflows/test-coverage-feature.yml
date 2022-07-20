@@ -1,9 +1,9 @@
 name: feature branches
 on:
   push:
-    branches: [ 'features/**' ]
+    branches: [ 'feature/**' ]
   pull_request:
-    branches: [ 'features/**' ]
+    branches: [ 'feature/**' ]
 jobs:
   build:
     runs-on: ubuntu-latest
