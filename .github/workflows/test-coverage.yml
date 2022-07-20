@@ -49,4 +49,4 @@ jobs:
           fail-if-branches-less-than: 0
           fail-on-coverage-decrease: false
           fail-on-branches-decrease: false
-       - run: find .github/
+      - run: find .github/
