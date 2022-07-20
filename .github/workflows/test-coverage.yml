@@ -24,7 +24,7 @@ jobs:
         env:
           SPRING_PROFILES_ACTIVE: github
         with:
-          arguments: clean build test jacocoTestReport
+          arguments: clean build test jacocoTestReport --debug
       - name: Generate JaCoCo Badge
         uses: cicirello/jacoco-badge-generator@v2
         with:
