@@ -44,7 +44,7 @@ class BookmarksIT(
     fun before(@Autowired mongoClient: MongoClient, @Value("\${spring.data.mongodb.database}") dbName: String) {
         mongoClient.getDatabase(dbName).drop().toMono().block()
 
-        loginUserDto = userService!!.create(
+        loginUserDto = userService.create(
             LoginUserDTO(
                 email = "test@invalid",
                 pwhash = "12345",
@@ -56,7 +56,7 @@ class BookmarksIT(
 
         testData = TestData(loginUserId = loginUserDto!!.id!!)
 
-        savedRootFolder = bookmarkFolderService!!
+        savedRootFolder = bookmarkFolderService
             .createRecursive(loginUserDto!!, testData!!.rootFolder)
             .block()
     }
@@ -72,7 +72,7 @@ class BookmarksIT(
 
     @Test
     fun testHasNoSideEffects() {
-        val unsavedRootFolder = testData!!.rootFolder!!
+        val unsavedRootFolder = testData!!.rootFolder
         val unsavedSubfolder = unsavedRootFolder.children.first()
 
         // Keine Nebeneffekte! -- Das als Parameter verwendete Objekt wurde nicht verändert!
@@ -87,10 +87,10 @@ class BookmarksIT(
             title = "sdflkhdsflkhsdf", description = "sadfoiar9awlkssd")
 
         bookmarkFolderService.update(loginUserDto!!, modifiedFolder).block()
-        val savedModifiedFolder = bookmarkFolderService.findFolderById(loginUserDto!!, modifiedFolder!!.id!!).block()
+        val savedModifiedFolder = bookmarkFolderService.findFolderById(loginUserDto!!, modifiedFolder.id!!).block()
 
         assertThat(savedModifiedFolder!!.title, equalTo(modifiedFolder.title))
-        assertThat(savedModifiedFolder!!.description, equalTo(modifiedFolder.description))
+        assertThat(savedModifiedFolder.description, equalTo(modifiedFolder.description))
     }
 
     @Test
@@ -107,20 +107,20 @@ class BookmarksIT(
     @Test
     fun testReReadSorted() {
         // Und jetzt nochmal aus der Datenbank auslesen, was wir eben abgespeichert haben.
-        val foundRootFolders = bookmarkFolderService!!
+        val foundRootFolders = bookmarkFolderService
             .findRootFolders(loginUserDto!!)
             .collectList()
             .block()
         val foundSubfolder = foundRootFolders!!.first().children.first()
 
-        assertThat(foundRootFolders!!.size, equalTo(1))
-        assertThat(foundRootFolders!!.first().id, equalTo(savedRootFolder!!.id))
+        assertThat(foundRootFolders.size, equalTo(1))
+        assertThat(foundRootFolders.first().id, equalTo(savedRootFolder!!.id))
 
         //FIXME
         //assertThat(foundRootFolders!!.first().children.first().id, equalTo(rootFolder!!.children.first().id))
         assertThat(foundSubfolder.bookmarks.first().id, equalTo(savedRootFolder!!.children.first().bookmarks.first().id))
 
-        val foundSubFolder: BookmarkFolderDTO? = bookmarkFolderService!!
+        val foundSubFolder: BookmarkFolderDTO? = bookmarkFolderService
             .findFolderById(loginUserDto!!, foundSubfolder.id!!)
             .block()
 
@@ -132,11 +132,11 @@ class BookmarksIT(
         val touchedSubFolder = savedRootFolder!!.children.first()
         val touchedBookmark: BookmarkDTO = touchedSubFolder.bookmarks.first().copy(title = "sdsdfsdf")
 
-        bookmarkService!!
-            .update(loginUserDto!!.id!!, touchedSubFolder.id!!, touchedBookmark)!!
+        bookmarkService
+            .update(loginUserDto!!.id!!, touchedSubFolder.id!!, touchedBookmark)
             .block()
 
-        val foundSubFolder: BookmarkFolderDTO? = bookmarkFolderService!!
+        val foundSubFolder: BookmarkFolderDTO? = bookmarkFolderService
             .findFolderById(loginUserDto!!, touchedSubFolder.id!!)
             .block()
         val foundBookmark = foundSubFolder!!
@@ -152,11 +152,11 @@ class BookmarksIT(
         val touchedSubFolder = savedRootFolder!!.children.first()
         val deletionCandidate: BookmarkDTO = touchedSubFolder.bookmarks.first()
 
-        bookmarkService!!
+        bookmarkService
             .delete(loginUserDto!!.id!!, touchedSubFolder.id!!, deletionCandidate.id!!)
             .block()
 
-        val foundSubFolder: BookmarkFolderDTO? = bookmarkFolderService!!.findFolderById(loginUserDto!!, touchedSubFolder.id!!).block()
+        val foundSubFolder: BookmarkFolderDTO? = bookmarkFolderService.findFolderById(loginUserDto!!, touchedSubFolder.id!!).block()
         val foundBookmark: BookmarkDTO? = foundSubFolder!!.bookmarks.filter { it.id!! == deletionCandidate.id!! }.firstOrNull()
 
         assertThat(foundBookmark, `is`(nullValue()))
@@ -167,8 +167,8 @@ class BookmarksIT(
         val touchedSubFolder = savedRootFolder!!.children.first()
 
         assertThrows<BookmarkNotFoundException> {
-            bookmarkService!!
-                .delete(loginUserDto!!.id!!, touchedSubFolder!!.id!!, "invalid id")
+            bookmarkService
+                .delete(loginUserDto!!.id!!, touchedSubFolder.id!!, "invalid id")
                 .block()
         }
     }
@@ -177,11 +177,11 @@ class BookmarksIT(
     fun testInsertNewBookmark() {
         val newBookmark = BookmarkDTO(url = "http://www.example.com/", title = "Example", description = "", loginUserId = loginUserDto!!.id!!);
 
-        val updateResult = bookmarkService!!
+        bookmarkService
             .create(loginUserDto!!.id!!, savedRootFolder!!.id!!, newBookmark)
             .block()
 
-        val foundRootFolders = bookmarkFolderService!!
+        val foundRootFolders = bookmarkFolderService
             .findFolderById(loginUserDto!!, savedRootFolder!!.id!!)
             .block()
 
@@ -194,7 +194,7 @@ class BookmarksIT(
         val newBookmark = BookmarkDTO(url = "http://www.example.com/", title = "Example", description = "", loginUserId = loginUserDto!!.id!!);
 
         assertThrows<BookmarkFolderNotFoundException> {
-            bookmarkService!!
+            bookmarkService
                 .create("inexistent", savedRootFolder!!.id!!, newBookmark)
                 .block()
         }

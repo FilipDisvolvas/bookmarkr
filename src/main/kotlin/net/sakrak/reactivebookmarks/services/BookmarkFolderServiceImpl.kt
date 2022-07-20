@@ -88,13 +88,10 @@ class BookmarkFolderServiceImpl(
                     Mono.defer { throw BookmarkFolderNotFoundException("${bookmarkFolderDTO.id} gehört nicht ${loginUserDTO.id}") }
                 }
             }
-
-        //val folder = dtoToBookmarkFolder(bookmarkFolderDTO.copy(loginUserId = loginUserDTO.id!!))
-        //return bookmarkFolderRepository.save(folder).map { bookmarkFolderDTO }
     }
 
-    override fun sortedBookmarks(bookmark: List<Bookmark>): List<Bookmark> {
-        val foo = bookmark
+    override fun sortedBookmarks(bookmarks: List<Bookmark>): List<Bookmark> {
+        val foo = bookmarks
             .map { Pair(URL(it.url), it) }
             .sortedWith { o1, o2 ->
                 val hostName1 = o1.first.host

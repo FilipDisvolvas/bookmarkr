@@ -41,7 +41,7 @@ class LoginUserServiceImplIT(@Autowired private val userService: LoginUserServic
         loadedUser.email = changedEmail
         userService.update(loadedUser.id!!, loadedUser).block()
 
-        val reloadedUser = userService.findActiveById(savedDto!!.id!!).block()
+        val reloadedUser = userService.findActiveById(savedDto.id!!).block()
         assertThat(reloadedUser!!.email, equalTo(changedEmail))
     }
 
