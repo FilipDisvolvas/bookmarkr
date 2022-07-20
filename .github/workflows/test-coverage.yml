@@ -20,9 +20,11 @@ jobs:
           mongodb-username: mongouser
           mongodb-password: secret
           mongodb-db: reactive-bookmarks
-      - run: gradle jacocoTestReport
-      - run: ls -lah
-      - run: find build
+      - uses: gradle/gradle-build-action@v2
+        env:
+          SPRING_PROFILE_ACTIVE: github
+        with:
+          arguments: clean build test jacocoTestReport
       - name: Generate JaCoCo Badge
         uses: cicirello/jacoco-badge-generator@v2
         with:
