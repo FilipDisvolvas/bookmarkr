@@ -1,6 +1,6 @@
 bookmarkr -- reactive bookmark management
 =========================================
-![build status](https://github.com/FilipDisvolvas/bookmarkr/actions/workflows/test-coverage.yml/badge.svg)
+![build status](https://github.com/FilipDisvolvas/bookmarkr/actions/workflows/test-coverage.yml/badge.svg?branch=master)
 
 Filips kleine Spielwiese. Bookmarks sollen mobile first zentral verwaltet werden.
 Tech Stack:
