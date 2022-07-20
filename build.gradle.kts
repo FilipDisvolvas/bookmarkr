@@ -9,6 +9,7 @@ plugins {
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.spring") version "1.6.21"
     jacoco
+    id("org.barfuin.gradle.jacocolog") version "3.0.0-RC2"
 }
 
 group = "net.sakrak"
