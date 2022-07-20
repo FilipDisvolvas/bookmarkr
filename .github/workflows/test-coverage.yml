@@ -12,7 +12,11 @@ jobs:
         mongodb-version: [5.0]
     steps:
       - uses: actions/checkout@v2
-      - uses: fwilhe2/setup-kotlin@main
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin' # See https://github.com/actions/setup-java
+          java-version: '11'
+          cache: 'gradle'
       - name: Start MongoDB
         uses: supercharge/mongodb-github-action@1.7.0
         with:
@@ -20,11 +24,7 @@ jobs:
           mongodb-username: mongouser
           mongodb-password: secret
           mongodb-db: reactive-bookmarks
-      - uses: gradle/gradle-build-action@v2
-        env:
-          SPRING_PROFILES_ACTIVE: github
-        with:
-          arguments: clean build test jacocoTestReport --debug
+      - run: SPRING_PROFILES_ACTIVE=github ./gradlew clean build test jacocoTestReport --debug --no-daemon
       - name: Generate JaCoCo Badge
         uses: cicirello/jacoco-badge-generator@v2
         with:
