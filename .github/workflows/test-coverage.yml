@@ -24,7 +24,7 @@ jobs:
           mongodb-username: mongouser
           mongodb-password: secret
           mongodb-db: reactive-bookmarks
-      - run:  SPRING_PROFILES_ACTIVE=github ./gradlew clean build test jacocoTestReport --no-daemon
+      - run:  SPRING_PROFILES_ACTIVE=github ./gradlew clean build jacocoTestReport --no-daemon
       - name: Generate JaCoCo Badge
         uses: cicirello/jacoco-badge-generator@v2
         with:
@@ -49,4 +49,4 @@ jobs:
           fail-if-branches-less-than: 0
           fail-on-coverage-decrease: false
           fail-on-branches-decrease: false
-
+       - run: find .github/
