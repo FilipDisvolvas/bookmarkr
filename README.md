@@ -1,6 +1,7 @@
 bookmarkr -- reactive bookmark management
 =========================================
 ![build status](https://github.com/FilipDisvolvas/bookmarkr/actions/workflows/test-coverage.yml/badge.svg?branch=master)
+![test status](https://raw.githubusercontent.com/FilipDisvolvas/bookmarkr/master/.github/badges/jacoco.svg)
 
 Filips kleine Spielwiese. Bookmarks sollen mobile first zentral verwaltet werden.
 Tech Stack:
@@ -19,7 +20,9 @@ Das Projekt fängt gerade erst an und wenn es nachher wirklich interessant wird,
 
 Frontend ist noch nicht wirklich da. Dafür ist die Test-Abdeckung schön.
 
-Ein [kleiner Workflow in GitHub Actions](https://github.com/FilipDisvolvas/bookmarkr/actions) ist auch vorhanden. Bin noch am Gucken, wie ich ein Badge für die Test Coverage im README integrieren kann. Sowohl GitHub Actions als auch CircleCI wollen dafür in das Repository schreiben und mir gefällt die Idee nicht, einem Fremdanbieter Vollzugriff zu geben. -- Gerade im Hinblick darauf, dass das Projekt nachher eh auf "private" gestellt wird...
+Ein [kleiner Workflow in GitHub Actions](https://github.com/FilipDisvolvas/bookmarkr/actions) ist auch vorhanden.
+Lässt immerhin die Tests durchlaufen und benachrichtigt, wenn sich der master- oder feature-Branch nicht bauen lässt.
+Die Badges in diesem README.md werden automagisch generiert.
 
 Lokales Testen
 --------------
