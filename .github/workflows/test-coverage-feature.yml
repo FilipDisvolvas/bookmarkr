@@ -1,9 +1,9 @@
 name: feature branches
 on:
   push:
-    branches: [ 'features/**' ]
+    branches: [ 'feature/**' ]
   pull_request:
-    branches: [ 'features/**' ]
+    branches: [ 'feature/**' ]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -49,4 +49,9 @@ jobs:
           fail-if-branches-less-than: 0
           fail-on-coverage-decrease: false
           fail-on-branches-decrease: false
-      - run: find .github/
+      - run:
+          git config --global user.name "github-actions[bot]" &&
+          git config --global user.email "51759+github-actions[bot]@users.noreply.github.com" &&
+          git add .github/badges/jacoco.svg &&
+          git commit -m "Update jacoco.svg" &&
+          git push
